@@ -1,13 +1,12 @@
 # Case Podcast
 
-A local app that turns an HBS case, or any document, into a study brief and a podcast-style MP3.
+A local app that turns a document into a study brief and a podcast-style MP3.
 
-- **Case prep:** upload a case. The app matches it to one of your courses and sessions, writes a prep brief (fact sheet, likely discussion questions, analysis, positions), and records an episode.
-- **Any document:** upload or paste any text and get a brief and an episode.
+Upload a PDF or text file, or paste text, and optionally describe what it is and what to focus on. The app works out what kind of document it is and what it is meant to teach. For a teaching case such as an HBS case, the brief covers the decision, a fact sheet, likely discussion questions, analysis, and positions. For other documents, it covers the fact sheet, main ideas, and review questions.
 
-Both modes offer two hosts or a single narrator. Before recording, a second pass checks the script against the brief's fact sheet and the source, adds missing facts, and corrects errors.
+Episodes have two hosts or a single narrator. Before recording, a second pass checks the script against the brief's fact sheet and the source, adds missing facts, and corrects errors.
 
-Claude (`claude-opus-5-5`) writes the brief and the script. The voices come from [edge-tts](https://github.com/rany2/edge-tts), which is free and needs no key, but does need an internet connection.
+Claude (`claude-sonnet-5-5`) writes the brief and the script. The voices come from [edge-tts](https://github.com/rany2/edge-tts), which is free and needs no key, but does need an internet connection.
 
 ## Setup (Windows)
 
@@ -47,10 +46,6 @@ You need Python 3.13 and [Git for Windows](https://git-scm.com/download/win). Ru
 On later runs, open PowerShell in the `case-podcast` folder and run only step 4.
 
 To get updates after changes are pushed, run `git pull` in the same folder.
-
-## Course profiles
-
-Course profiles live in `courses/`, one Markdown file per course. `courses/README.md` contains the prompt that generates a profile from your existing Claude chats.
 
 ## Output
 

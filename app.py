@@ -6,7 +6,7 @@ from pathlib import Path
 import anthropic
 import streamlit as st
 
-from pipeline import WORDS_PER_MINUTE, PipelineError, Source, check_script, load_courses, make_brief, write_script
+from pipeline import WORDS_PER_MINUTE, PipelineError, Source, check_script, make_brief, write_script
 from tts import parse_script, render_audio
 
 OUTPUTS = Path(__file__).parent / "outputs"
@@ -21,23 +21,13 @@ if not os.environ.get("ANTHROPIC_API_KEY"):
         st.error("No Anthropic API key found. See README.md, step 3.")
         st.stop()
 
-mode = st.radio("Mode", ["Case prep", "Any document"], horizontal=True)
-case_mode = mode == "Case prep"
-
 uploaded = st.file_uploader("Upload a document", type=["pdf", "txt", "md"])
 pasted = st.text_area("Or paste text", height=120)
-
-courses = load_courses()
-course_choice, questions, focus = "Auto-detect", "", ""
-if case_mode:
-    if courses:
-        course_choice = st.selectbox("Course", ["Auto-detect"] + [c.name for c in courses])
-    else:
-        st.info("No course profiles yet. Add them to the courses folder (see courses/README.md).")
-    questions = st.text_area("Assignment questions (optional)", height=100)
-else:
-    focus = st.text_input("What should the episode focus on? (optional)")
-
+description = st.text_area(
+    "Describe it (optional)",
+    placeholder="For example: HBS case for my Strategy & Technology class. Focus on the bundling decision.",
+    height=80,
+)
 two_hosts = st.radio("Format", ["Two hosts", "Single narrator"], horizontal=True) == "Two hosts"
 minutes = st.slider("Episode length (minutes)", 5, 40, 20)
 
@@ -59,23 +49,14 @@ if st.button("Generate", type="primary"):
         st.warning("Upload a file or paste some text first.")
         st.stop()
 
-    selected = courses
-    if case_mode and course_choice != "Auto-detect":
-        selected = [c for c in courses if c.name == course_choice]
-    context = selected if case_mode else []
-
     try:
         with st.status("Working…", expanded=True) as status:
             st.write("Reading the document and writing the brief…")
-            brief = make_brief(
-                source, context, case_mode,
-                auto_detect=course_choice == "Auto-detect",
-                assignment_questions=questions, focus=focus,
-            )
+            brief = make_brief(source, description)
             st.write("Writing the script…")
-            draft = write_script(source, context, case_mode, brief, two_hosts, minutes)
+            draft = write_script(source, brief, description, two_hosts, minutes)
             st.write("Checking the script against the fact sheet…")
-            script = check_script(source, context, case_mode, brief, draft)
+            script = check_script(source, brief, draft, minutes)
             segments = parse_script(script, two_hosts)
             st.write(f"Recording audio ({len(segments)} segments)…")
             audio = render_audio(segments)
