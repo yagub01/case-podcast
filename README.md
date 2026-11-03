@@ -9,40 +9,44 @@ Both modes offer two hosts or a single narrator. Before recording, a second pass
 
 Claude (`claude-opus-5-5`) writes the brief and the script. The voices come from [edge-tts](https://github.com/rany2/edge-tts), which is free and needs no key, but does need an internet connection.
 
-## Setup (macOS)
+## Setup (Windows)
 
-1. Clone the repository and enter it:
+You need [Python](https://www.python.org/downloads/) (tick "Add python.exe to PATH" during installation) and [Git for Windows](https://git-scm.com/download/win). Run the commands below in PowerShell.
 
-   ```bash
+1. Clone the repository and enter it. Git asks you to sign in to GitHub the first time.
+
+   ```powershell
    git clone https://github.com/yagub01/case-podcast.git
    cd case-podcast
    ```
 
 2. Create a virtual environment and install the dependencies:
 
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
+   ```powershell
+   python -m venv .venv
+   .venv\Scripts\python -m pip install -r requirements.txt
    ```
 
-3. Add your Anthropic API key. Create `.streamlit/secrets.toml` containing:
+3. Add your Anthropic API key (replace `sk-ant-...` with your key):
 
-   ```toml
-   ANTHROPIC_API_KEY = "sk-ant-..."
+   ```powershell
+   mkdir .streamlit
+   Set-Content .streamlit\secrets.toml 'ANTHROPIC_API_KEY = "sk-ant-..."'
    ```
 
-   This file is excluded from Git. Exporting `ANTHROPIC_API_KEY` in your shell also works.
+   This file is excluded from Git.
 
 4. Run the app:
 
-   ```bash
-   streamlit run app.py
+   ```powershell
+   .venv\Scripts\python -m streamlit run app.py
    ```
 
-   It opens in your browser at http://localhost:8501.
+   It opens in your browser at http://localhost:8501. Keep the PowerShell window open while you use it.
 
-On later runs, only `source .venv/bin/activate` and `streamlit run app.py` are needed.
+On later runs, open PowerShell in the `case-podcast` folder and run only step 4.
+
+To get updates after changes are pushed, run `git pull` in the same folder.
 
 ## Course profiles
 
