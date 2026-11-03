@@ -11,7 +11,7 @@ Claude (`claude-opus-5-5`) writes the brief and the script. The voices come from
 
 ## Setup (Windows)
 
-You need [Python](https://www.python.org/downloads/) (tick "Add python.exe to PATH" during installation) and [Git for Windows](https://git-scm.com/download/win). Run the commands below in PowerShell.
+You need Python 3.13 and [Git for Windows](https://git-scm.com/download/win). Run the commands below in PowerShell. To install Python, run `winget install -e --id Python.Python.3.13`, then open a new PowerShell window. `py -3.13 --version` should print the version.
 
 1. Clone the repository and enter it. Git asks you to sign in to GitHub the first time.
 
@@ -23,7 +23,7 @@ You need [Python](https://www.python.org/downloads/) (tick "Add python.exe to PA
 2. Create a virtual environment and install the dependencies:
 
    ```powershell
-   python -m venv .venv
+   py -3.13 -m venv .venv
    .venv\Scripts\python -m pip install -r requirements.txt
    ```
 
