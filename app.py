@@ -21,6 +21,19 @@ if not os.environ.get("ANTHROPIC_API_KEY"):
         st.error("No Anthropic API key found. See README.md, step 3.")
         st.stop()
 
+try:
+    password = st.secrets.get("APP_PASSWORD")
+except Exception:
+    password = None
+if password and not st.session_state.get("signed_in"):
+    entered = st.text_input("Password", type="password")
+    if entered == password:
+        st.session_state.signed_in = True
+        st.rerun()
+    if entered:
+        st.error("Wrong password.")
+    st.stop()
+
 uploaded = st.file_uploader("Upload a document", type=["pdf", "txt", "md"])
 pasted = st.text_area("Or paste text", height=120)
 description = st.text_area(

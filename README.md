@@ -47,6 +47,21 @@ On later runs, open PowerShell in the `case-podcast` folder and run only step 4.
 
 To get updates after changes are pushed, run `git pull` in the same folder.
 
+## Deploying online (Streamlit Community Cloud)
+
+1. Sign in at https://share.streamlit.io with GitHub and choose **Create app**.
+2. Select the `yagub01/case-podcast` repository, branch `main`, and main file `app.py`. Under **Advanced settings**, choose Python 3.13.
+3. In the same Advanced settings, paste the secrets:
+
+   ```toml
+   ANTHROPIC_API_KEY = "sk-ant-..."
+   APP_PASSWORD = "choose-a-password"
+   ```
+
+4. Deploy. With `APP_PASSWORD` set, the app asks for the password before anything else. Without it, there is no password, which is how it runs on your laptop.
+
+Generated episodes are not saved between visits online; download the files you want to keep.
+
 ## Output
 
 Each run saves `brief.md`, `script.txt`, and `episode.mp3` to a dated folder in `outputs/`.
